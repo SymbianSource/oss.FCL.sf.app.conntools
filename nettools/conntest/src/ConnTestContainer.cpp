@@ -306,9 +306,10 @@ void CConnTestContainer::PrintNotify(const TDesC8& aDes, TUint aFontStyle)
     SetFontStyle(aFontStyle);
     TChar ch;
     TInt error;
+    const TInt KBufLen( 128 );
     
-    TBuf<128> des;
-    des.Copy( aDes );
+    TBuf<KBufLen> des;
+    des.Copy( aDes.Left(KBufLen) );
     
     RDebug::Print(_L("ConnTest: %S"),&des);
     

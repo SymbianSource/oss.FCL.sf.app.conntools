@@ -28,7 +28,7 @@
     </Global>
     <LAN_APs>
     <LAN_AP>
-      <ConnectionName>Incorrect ethernet setup 1</ConnectionName>
+      <ConnectionName>Incorrect</ConnectionName>
     	<Protected>No</Protected>
 			<Hidden>No</Hidden>
 			<HiddenAgent>No</HiddenAgent>	
@@ -50,7 +50,7 @@
       <ConfigDaemonName>NonExistingServ</ConfigDaemonName>
     </LAN_AP>
     <LAN_AP>
-      <ConnectionName>Ethernet with Daemon Static IP</ConnectionName>
+      <ConnectionName>Static</ConnectionName>
     	<Protected>No</Protected>
 			<Hidden>No</Hidden>
 			<HiddenAgent>No</HiddenAgent>	
@@ -72,7 +72,7 @@
       <ConfigDaemonName>!DhcpServ</ConfigDaemonName>
     </LAN_AP>
     <LAN_AP>
-      <ConnectionName>Ethernet with Daemon Dynamic IP</ConnectionName>
+      <ConnectionName>Dynamic</ConnectionName>
     	<Protected>No</Protected>
 			<Hidden>No</Hidden>
 			<HiddenAgent>No</HiddenAgent>	
@@ -104,8 +104,8 @@
             <Highlighted>Yes</Highlighted>
             <Icon>0</Icon>
             <EmbeddedDN></EmbeddedDN>
-            <IAP></IAP>
-            <IAP2></IAP2>
+            <IAP>Dynamic</IAP>
+            <IAP2>Static</IAP2>
             <IAP3></IAP3>
             <IAP4></IAP4>
             <IAP5></IAP5>
