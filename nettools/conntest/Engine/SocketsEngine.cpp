@@ -951,6 +951,8 @@ void CSocketsEngine::RunL()
     // completion can be handled appropriately
     iTimer->Cancel(); // Cancel TimeOut timer before completion
     TBuf<64> text( _L(""));
+    TBuf<64> errorText( _L("") );
+    
     switch (iEngineStatus)
         {
         case EInterfaceDown:
@@ -992,7 +994,7 @@ void CSocketsEngine::RunL()
                 }
             else
                 {
-                iConsole.ErrorNotify( _L("<CSocketsEngine> Startup failed"), iStatus.Int() );
+                errorText.Append(_L("<CSocketsEngine> Startup failed"));
                 ChangeStatus( EInterfaceDown );
                 SetSocketEngineConnType( ETypeUnknown );
                 }
@@ -1010,7 +1012,7 @@ void CSocketsEngine::RunL()
                 }
             else
                 {
-                iConsole.ErrorNotify( _L("<CSocketsEngine> Conn. failed"), iStatus.Int() );
+                errorText.Append(_L("<CSocketsEngine> Conn. failed"));
                 ChangeStatus( EInterfaceUp );
                 }
             break;
@@ -1038,7 +1040,7 @@ void CSocketsEngine::RunL()
             else
                 {
                 // DNS lookup failed
-                iConsole.ErrorNotify( _L("<CSocketsEngine> DNS lookup failed"), iStatus.Int() );
+                errorText.Append(_L("<CSocketsEngine> DNS lookup failed"));
                 ChangeStatus( EInterfaceUp );
                 }
             break;
@@ -1054,7 +1056,7 @@ void CSocketsEngine::RunL()
                 }
             else
                 {
-                iConsole.ErrorNotify( _L("<CSocketsEngine> Accept. failed"), iStatus.Int() );
+                errorText.Append(_L("<CSocketsEngine> DNS lookup failed"));
                 iListeningSocket.Close();
                 iSocket.Close();
                 ChangeStatus( EInterfaceUp );
@@ -1073,6 +1075,13 @@ void CSocketsEngine::RunL()
             // Ignore the state check here, because it might happen that state
             // has already been altered in ProgressNotifyReceived method.
             break;
+        }
+    
+    // ErrorNotify starts the scheduler, don't add any code that refers to
+    // class variables after it (they might have changed!)
+    if (errorText.Length() > 0)
+        {
+        iConsole.ErrorNotify( errorText, iStatus.Int() );
         }
     }
 
@@ -1487,7 +1496,6 @@ void CSocketsEngine::SendHttpFrameworkRequestL( TBool aHasBody,
 //
 void CSocketsEngine::ProgressNotifyReceivedL( TInt aStage, TInt aError )
     {
-    
     TBuf8<64> text;
     text.AppendFormat( _L8("Progress: %d, %d"), aStage, aError );
 
@@ -1543,105 +1551,105 @@ void CSocketsEngine::ProgressNotifyReceivedL( TInt aStage, TInt aError )
                 iTempProgressNotifier = NULL;
                 }
             break;
-            case KConnectionFailure: // 2001
-                        iConsole.PrintNotify(_L8("Connection failure"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KMinAgtProgress: // 2500
-                        iConsole.PrintNotify(_L8("Min agt progress"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KConnectionOpen: // 3500
-                        iConsole.PrintNotify(_L8("Connection open"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KConnectionClosed: // 4500
-                        iConsole.PrintNotify(_L8("Connection closed"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KMaxAgtProgress: // 5500
-                        iConsole.PrintNotify(_L8("Max agent progress"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KMinNifProgress: // 6000
-                        iConsole.PrintNotify(_L8("Min nif progress"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KLinkLayerOpen: // 7000
-                        iConsole.PrintNotify(_L8("Link layer open"));
-                        iConsole.PrintNotify(error);
-                        break;
-                        case KLinkLayerClosed: // 8000
-                        iConsole.PrintNotify(_L8("Link layer closed"));
-                        iConsole.PrintNotify(error);
-                        iHttpClient->SetHttpConnectionInfoL(ETrue, iConnection, iSocketServ);
-
-                        switch (iEngineStatus)
-                            {
-                            case EStartingInterface:
-                            // This case will occur, if username/password prompt dialog
-                            // is used and cancel is selected in dialog, and when error
-                            // occurs during interface startup.
-                            break;
-                            case EInterfaceDown:
-                            // EInterfaceDown must be handled also, because this
-                            // state has been set in StopInterface method.
-                            break;
-                            case EListening:
-                            iListeningSocket.CancelAccept();
-                            iListeningSocket.Close();
-                            // FALLTHROUGH
-                            case ELookingUp:
-                            // Cancel everything depending on state.
-                            iResolver.Cancel();
-                            iResolver.Close();
-                            // FALLTHROUGH
-                            case EConnected:
-                            iSocketsRead->Cancel();
-                            iSocketsWrite->Cancel();
-                            // FALLTHROUGH
-                            case EConnecting:
-                            // This looks awful, but is required because of the fall through
-                            // and buggy implementation of the CancelConnect.
-                            if( EConnecting == iEngineStatus )
-                                {
-                                iSocket.CancelConnect();
-                                }
-                            // FALLTHROUGH
-                            case EDisconnecting:
-                            iSocket.Close();
-                            // FALLTHROUGH
-                            case EInterfaceUp:
-                            if (iRoaming == ERoamingOff)
-                                {
-                                UnRegisterFromMobilityAPI();
-                                SetSocketEngineConnType(ETypeUnknown);
-                                ChangeStatus(EInterfaceDown);
-                                }
-                            else
-                                {
-                                iConsole.PrintNotify(_L8("MobilitySession lost!\n"));
-                                UnRegisterFromMobilityAPI();
-                                SetSocketEngineConnType(ETypeUnknown);
-                                ChangeStatus(EInterfaceDown);
-                                }
-                            break;
-                            default:
-                            User::Panic(KPanicSocketsEngine, EConnTestBadStatus);
-                            break;
-                            }
-
-                        break;
-                        case KMaxNifProgress: // 9000
-                        iConsole.PrintNotify(_L8("Max nif progress\n"));
-                        break;
-                        default:
-                        iConsole.PrintNotify(text);
-                        }
-                    iConsole.PrintNotify(_L8("\f"));
+        case KConnectionFailure: // 2001
+            iConsole.PrintNotify(_L8("Connection failure"));
+            iConsole.PrintNotify(error);
+            break;
+        case KMinAgtProgress: // 2500
+            iConsole.PrintNotify(_L8("Min agt progress"));
+            iConsole.PrintNotify(error);
+            break;
+        case KConnectionOpen: // 3500
+            iConsole.PrintNotify(_L8("Connection open"));
+            iConsole.PrintNotify(error);
+            break;
+        case KConnectionClosed: // 4500
+            iConsole.PrintNotify(_L8("Connection closed"));
+            iConsole.PrintNotify(error);
+            break;
+        case KMaxAgtProgress: // 5500
+            iConsole.PrintNotify(_L8("Max agent progress"));
+            iConsole.PrintNotify(error);
+            break;
+        case KMinNifProgress: // 6000
+            iConsole.PrintNotify(_L8("Min nif progress"));
+            iConsole.PrintNotify(error);
+            break;
+        case KLinkLayerOpen: // 7000
+            iConsole.PrintNotify(_L8("Link layer open"));
+            iConsole.PrintNotify(error);
+            break;
+        case KLinkLayerClosed: // 8000
+            iConsole.PrintNotify(_L8("Link layer closed"));
+            iConsole.PrintNotify(error);
+            iHttpClient->SetHttpConnectionInfoL(ETrue, iConnection, iSocketServ);
+    
+            switch (iEngineStatus)
+                {
+                case EStartingInterface:
+                // This case will occur, if username/password prompt dialog
+                // is used and cancel is selected in dialog, and when error
+                // occurs during interface startup.
+                break;
+                case EInterfaceDown:
+                // EInterfaceDown must be handled also, because this
+                // state has been set in StopInterface method.
+                break;
+                case EListening:
+                iListeningSocket.CancelAccept();
+                iListeningSocket.Close();
+                // FALLTHROUGH
+                case ELookingUp:
+                // Cancel everything depending on state.
+                iResolver.Cancel();
+                iResolver.Close();
+                // FALLTHROUGH
+                case EConnected:
+                iSocketsRead->Cancel();
+                iSocketsWrite->Cancel();
+                // FALLTHROUGH
+                case EConnecting:
+                // This looks awful, but is required because of the fall through
+                // and buggy implementation of the CancelConnect.
+                if( EConnecting == iEngineStatus )
+                    {
+                    iSocket.CancelConnect();
                     }
+                // FALLTHROUGH
+                case EDisconnecting:
+                iSocket.Close();
+                // FALLTHROUGH
+                case EInterfaceUp:
+                if (iRoaming == ERoamingOff)
+                    {
+                    UnRegisterFromMobilityAPI();
+                    SetSocketEngineConnType(ETypeUnknown);
+                    ChangeStatus(EInterfaceDown);
+                    }
+                else
+                    {
+                    iConsole.PrintNotify(_L8("MobilitySession lost!\n"));
+                    UnRegisterFromMobilityAPI();
+                    SetSocketEngineConnType(ETypeUnknown);
+                    ChangeStatus(EInterfaceDown);
+                    }
+                break;
+                default:
+                User::Panic(KPanicSocketsEngine, EConnTestBadStatus);
+                break;
+                }
+    
+            break;
+        case KMaxNifProgress: // 9000
+            iConsole.PrintNotify(_L8("Max nif progress\n"));
+            break;
+        default:
+            iConsole.PrintNotify(text);
+        }
+    iConsole.PrintNotify(_L8("\f"));
+    }
 
-                // ---------------------------------------------------------
+            // ---------------------------------------------------------
                 // CSocketsEngine::ProgressNotifyError(TInt aStatus)
                 // Some error has occurred while receiving progress
                 // notifications.

@@ -23,12 +23,14 @@ file=ABI_DIR\BUILD_DIR\ConnTest.exe               PROGRAMS_DIR\ConnTest.exe
 AUTO-BITMAP=DATAZ_\APP_BITMAP_DIR\ConnTest_AIF.mbm    APP_BITMAP_DIR\ConnTest_AIF.mbm
 data=DATAZ_\APP_BITMAP_DIR\ConnTest_AIF.mif           APP_BITMAP_DIR\ConnTest_AIF.mif
 
-data=ZSYSTEM\..\PRIVATE\10003A3F\APPS\ConnTEst_REG.RSC Private\10003a3f\apps\ConnTest_reg.rsc
-//data=DATAZ_\PRIVATE\10003A3F\APPS\ConnTEst_REG.RSC Private\10003a3f\apps\ConnTest_reg.rsc
+S60_UPGRADABLE_APP_REG_RSC(ConnTest)
 
 data=DATAZ_\APP_RESOURCE_DIR\ConnTest.RSC          APP_RESOURCE_DIR\ConnTest.rsc
 
 data=EPOCROOT##epoc32\data\c\private\101F7989\esock\ip.probe.esk    private\101F7989\esock\ip.probe.esk
-file=ABI_DIR\urel\probe.prt            system\libs\probe.prt 
+
+file=ABI_DIR\urel\probe.prt              sys\bin\probe.prt
+
+data=DATAZ_\system\install\conntest_stub.sis  system\install\conntest_stub.sis
 
 #endif

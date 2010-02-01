@@ -134,7 +134,7 @@ RESOURCE MENU_PANE r_conntest_view1_menu
 
 		MENU_ITEM { command=EConnTestCmdDisconnect; txt = "Disconnect"; },
 
-        MENU_ITEM { command = EConnTestCmdClearOutputWindow; txt = "Clear output"; },
+        MENU_ITEM { command=EConnTestCmdOutputWindow; txt = "Output"; cascade=r_conntest_sub_menu_output;},
 
 		MENU_ITEM { command=EConnTestCmdSendRawData; txt = "Send";
 		            cascade=r_conntest_sub_menu_send; },
@@ -157,6 +157,16 @@ RESOURCE MENU_PANE r_conntest_view1_menu
         };
     }
 
+RESOURCE MENU_PANE r_conntest_sub_menu_output
+    {
+    items=
+        {
+        MENU_ITEM { command=EConnTestCmdClearOutputWindow; txt = "Clear"; },
+        MENU_ITEM { command=EConnTestCmdSaveOutputWindow; txt = "Save"; }
+        };
+    }
+
+    
 RESOURCE MENU_PANE r_conntest_sub_menu_wlan
     {
     items=

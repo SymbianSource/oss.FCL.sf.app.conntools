@@ -60,6 +60,11 @@ public: // New functions
     */
     void ClearOutputWindow();
     
+    /**
+     * Stores the content of output window to a file.
+     */
+    void SaveOutputWindowToFile();
+    
 public: // Functions from base classes
     
     // From MUINotify

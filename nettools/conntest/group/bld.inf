@@ -23,6 +23,7 @@ DEFAULT
 
 PRJ_EXPORTS
 ../rom/ConnTest.iby CORE_IBY_EXPORT_PATH(tools,ConnTest.iby)
+../rom/conntest_stub.sis  /epoc32/data/z/system/install/conntest_stub.sis
 
 PRJ_MMPFILES
 ConnTest.mmp

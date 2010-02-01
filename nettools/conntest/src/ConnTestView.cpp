@@ -238,6 +238,10 @@ void CConnTestView::HandleCommandL(TInt aCommand)
             iContainer->ClearOutputWindow();
             break;
             
+        case EConnTestCmdSaveOutputWindow:
+            iContainer->SaveOutputWindowToFile();
+            break;
+            
         case EConnTestCmdSettings:
             // Display settings list
             SwapContainerL(ESettingsContainer);

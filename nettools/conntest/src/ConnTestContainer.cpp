@@ -452,5 +452,24 @@ void CConnTestContainer::ClearOutputWindow()
         }
     }
 
+// ----------------------------------------------------------------------------
+// CConnTestContainer::SaveOutputWindowToFile
+// Store console output log to a file.
+// ----------------------------------------------------------------------------
+//
+void CConnTestContainer::SaveOutputWindowToFile()
+    {
+    TInt error;
+    _LIT( KOutputInternalMemory, "c:\\data\\conntest_output.txt" );
+    
+    TBuf<100> filename( KOutputInternalMemory );
+    
+    TRAP( error, iRichText->ExportAsTextL( filename, CPlainText::EOrganiseByParagraph, 0));
+    
+    if(error != KErrNone)
+         {
+         User::Panic (KPanicConnTest, EConnTestContainer);
+         }
+    }
 
 // End of File  
