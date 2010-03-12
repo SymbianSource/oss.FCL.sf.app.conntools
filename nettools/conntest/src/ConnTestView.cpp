@@ -1219,7 +1219,18 @@ void CConnTestView::RssChanged( TWlanRssClass aRssClass,
     TDateTime time = currentTime.DateTime();
     text.AppendFormat(_L8("%02u:%02u:%02u "),
         time.Hour(), time.Minute(), time.Second() );
-    text.AppendFormat(_L8("Wlan: RssChanged: %d, %d\n"), aRssClass, aRss);
+    if ( aRssClass == EWlanRssClassNormal )
+        {
+        text.AppendFormat(_L8("Wlan RSS: -%ddBm (good)\f"), aRss);
+        }
+    else if ( aRssClass == EWlanRssClassWeak )
+        {
+        text.AppendFormat(_L8("Wlan RSS: -%ddBm (weak)\f"), aRss);
+        }
+    else
+        {
+        text.AppendFormat(_L8("Wlan RSS: -%ddBm (unknown)\f"), aRss);
+        }
     iContainer->PrintNotify(text);
     }
 
