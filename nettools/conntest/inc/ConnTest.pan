@@ -30,8 +30,9 @@ enum TConnTestPanics
     EConnTestBasicUi = 1,
     EConnTestBadStatus,
     EConnTestAppView,
-	EConnTestContainer,
-	EConnTestBadRoamingStatus
+    EConnTestContainer,
+    EConnTestBadRoamingStatus,
+    EConnTestHttpClientInitializationFailed
     // add further panics here
     };
 
