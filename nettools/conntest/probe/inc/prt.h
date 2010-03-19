@@ -19,6 +19,7 @@
 #define __PROBE_PRT_H
 
 #include <e32std.h>
+#include <f32file.h>
 #include <es_sock.h>
 #include <nifman.h>
 #include <in_bind.h>
