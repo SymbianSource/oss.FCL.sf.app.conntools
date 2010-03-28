@@ -94,7 +94,7 @@ public: // Functions from base classes
     * Notify user with a message
     * @param aMessage message associated with error
     */
-    void CConnTestContainer::PopupNotify(const TDesC& aMessage);
+    void PopupNotify(const TDesC& aMessage);
     
     /**
     * Change 'status' display.

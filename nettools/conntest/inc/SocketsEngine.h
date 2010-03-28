@@ -247,7 +247,7 @@ public:
      * Gets MobilityAPIImplementation
      * @return CALRActiveObject
      */
-    CALRActiveObject* CSocketsEngine::GetMobilityAPI();
+    CALRActiveObject* GetMobilityAPI();
     
     /**
     * Get socket engine connection type
