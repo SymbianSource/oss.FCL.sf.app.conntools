@@ -31,7 +31,7 @@
 //const TInt KMaxSubmitSize = 2048;
 const TInt KMaxHeaderNameLen = 32;
 const TInt KMaxHeaderValueLen = 128;
-
+const TInt KMaxStatusStrLen = 32;
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -533,8 +533,10 @@ void CHttpEventHandler::MHFRunL(RHTTPTransaction aTransaction, const THTTPEvent&
             RHTTPResponse resp = aTransaction.Response();
             TInt status = resp.StatusCode();
             RStringF statusStr = resp.StatusText();
-            TBuf<32> statusStr16;
-            statusStr16.Copy(statusStr.DesC());
+            const TDesC8& statusStrDesC = statusStr.DesC();
+            TBuf< KMaxStatusStrLen > statusStr16; 
+            statusStr16.Copy( statusStrDesC.Left( KMaxStatusStrLen ) );
+            
             TBuf<64> st;
             st.Format(_L("Status: %d (%S)\n"), status, &statusStr16);
             iConsole.PrintNotify(st);
