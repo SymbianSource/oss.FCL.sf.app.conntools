@@ -529,6 +529,24 @@ void CSocketsEngine::NewCarrierActive( TAccessPointInfo aNewAP,
         text.AppendFormat( _L8("Unexpected NewCarrierActive %i\n"), aNewAP.AccessPoint() );
         iMobility->NewCarrierRejected();
         }
+    
+    // Clean up and refresh HTTP client for the new carrier
+    delete iHttpClient;
+    iHttpClient = NULL;
+    
+    TRAPD( err1, iHttpClient = CHttpClient::NewL( iConsole ) );
+    if ( err1 != KErrNone )
+        {
+        User::Panic( KPanicConnTest, EConnTestHttpClientInitializationFailed );
+        iHttpClient = NULL;
+        }
+    
+    TRAPD( err2, iHttpClient->SetHttpConnectionInfoL( ETrue, iConnection, iSocketServ ) );
+    if ( err2 != KErrNone )
+        {
+        User::Panic( KPanicConnTest, EConnTestHttpClientInitializationFailed );
+        }
+    
     iConsole.PrintNotify( text );
     }
 
@@ -1475,11 +1493,11 @@ void CSocketsEngine::ConnectionInfoL()
     CleanupStack::PopAndDestroy(&appSess);
     }
 
-    // ---------------------------------------------------------
-    // CSocketsEngine::SendHttpFrameworkRequestL()
-    // Send HTTP request
-    // ---------------------------------------------------------
-    //
+// ---------------------------------------------------------
+// CSocketsEngine::SendHttpFrameworkRequestL()
+// Send HTTP request
+// ---------------------------------------------------------
+//
 void CSocketsEngine::SendHttpFrameworkRequestL( TBool aHasBody,
         TBool aDoPerformance,
         TBool aIsSecure )
