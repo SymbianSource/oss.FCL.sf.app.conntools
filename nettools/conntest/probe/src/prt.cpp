@@ -307,18 +307,20 @@ void CProtocolProbe::Queue(RMBufChain &aPacket)
 
 		const TInt KMicrosInASecond = 1000000;
 
-		//TUint32 micros = interval.Int64().Low();
-		TUint32 micros = I64LOW(interval.Int64());//.Low();  x.Low() -> I64LOW(x)
-		TUint32 secs = micros / KMicrosInASecond;
-		micros -= (secs * KMicrosInASecond);
+		// To avoid possible overflow caused by microsecond accuracy (32 bits
+		// of microseconds is just a bit over an hour), use 64-bit variables
+		// in calculation of timestamp
+		TInt64 secs = interval.Int64() / KMicrosInASecond;
 
 		//
 		// Reuse the protocol and flags fields of
 		// RMBufPktInfo to store the time-stamp
 		//
 		RMBufPktInfo* info = RMBufPacket::PeekInfoInChain(copy);
-		info->iProtocol = static_cast<TInt>(secs);
-		info->iFlags = static_cast<TUint>(micros);
+		// Just let the seconds overflow in case of timestamp is over the
+		// integer scope (nothing reasonable to do in this case anyway)
+		info->iProtocol = static_cast<TInt>( secs );
+		info->iFlags = static_cast<TUint>( interval.Int64() - ( secs * KMicrosInASecond ));
 
 		iQueue.Append(copy);
 		iDumpCb.CallBack();
