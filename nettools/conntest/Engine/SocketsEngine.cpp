@@ -547,6 +547,50 @@ void CSocketsEngine::NewCarrierActive( TAccessPointInfo aNewAP,
         User::Panic( KPanicConnTest, EConnTestHttpClientInitializationFailed );
         }
     
+    /*
+     * In case roaming, socket needs to be restarted in following cases.
+     */
+    
+    if ( iEngineStatus == EConnecting || 
+         iEngineStatus == ELookingUp )
+        {
+        // Cancel and then re-connect
+        DoCancel();
+        ConnectL();
+        }
+    else if ( iEngineStatus == EConnected )
+        {
+        // Cancel write socket
+        iSocketsWrite->Cancel();
+        
+        // Cancel read socket
+        TBool isSocketActive( EFalse );
+        if ( iSocketsRead->IsActive() )
+            {
+            iSocketsRead->Cancel();
+            isSocketActive = ETrue;
+            }
+        
+        // Re-connect
+        ChangeStatus( EInterfaceUp );
+        ConnectL();
+        
+        // Start read socket again
+        if ( isSocketActive )
+            {
+            Read();
+            }
+        }
+    else if ( iEngineStatus == EListening )
+        {
+        DoCancel();
+        ListenL();
+        }
+    else if ( iEngineStatus == EDisconnecting )
+        {
+        DoCancel();
+        }
+    
     iConsole.PrintNotify( text );
     }
 

@@ -142,7 +142,6 @@ void CHttpClient::SetHttpConnectionInfoL( TBool aUseOwnConnection,
     TBuf<100> proxyAddr;
     TBuf8<100> proxyAddr2;
     TUint32 proxyPort;
-    TBool useProxy;
     TUint connCount;
     CCommsDatabase* TheDb;
     RStringF proxyName;
@@ -192,29 +191,24 @@ void CHttpClient::SetHttpConnectionInfoL( TBool aUseOwnConnection,
         
         if(result == KErrNone)
         {
-            // Check whether proxy should be used for this IAP
-            TRAPD(proxyErr, view->ReadBoolL(TPtrC(PROXY_USE_PROXY_SERVER), useProxy));
-            if((proxyErr == KErrNone) && useProxy)
-            {
-                // This IAP uses proxy, set it to http session
-                view->ReadUintL(TPtrC(PROXY_PORT_NUMBER), proxyPort);
-                HBufC* k = view->ReadLongTextLC(TPtrC(PROXY_SERVER_NAME));
-                proxyAddr.Copy(k->Des());
-                proxyAddr.AppendFormat(_L(":%d"), proxyPort);
-                
-                proxyAddr2.Copy(proxyAddr);
-                
-                CleanupClosePushL(proxyName);
-                proxyName = iHttpSession.StringPool().OpenFStringL(proxyAddr2);
-                connInfo.SetPropertyL( strPool.StringF(HTTP::EProxyUsage,RHTTPSession::GetTable()), 
-                                       proxyUsage );
-                connInfo.SetPropertyL( strPool.StringF(HTTP::EProxyAddress,RHTTPSession::GetTable()), 
-                                       proxyName );
-                CleanupStack::PopAndDestroy(&proxyName); // proxyName
-                CleanupStack::PopAndDestroy(k); //k
-                
-                RDebug::Print(_L("ConnTest: Proxy address: %S"), &proxyAddr);
-            }
+            // This IAP uses proxy, set it to http session
+            view->ReadUintL(TPtrC(PROXY_PORT_NUMBER), proxyPort);
+            HBufC* k = view->ReadLongTextLC(TPtrC(PROXY_SERVER_NAME));
+            proxyAddr.Copy(k->Des());
+            proxyAddr.AppendFormat(_L(":%d"), proxyPort);
+            
+            proxyAddr2.Copy(proxyAddr);
+            
+            CleanupClosePushL(proxyName);
+            proxyName = iHttpSession.StringPool().OpenFStringL(proxyAddr2);
+            connInfo.SetPropertyL( strPool.StringF(HTTP::EProxyUsage,RHTTPSession::GetTable()), 
+                                   proxyUsage );
+            connInfo.SetPropertyL( strPool.StringF(HTTP::EProxyAddress,RHTTPSession::GetTable()), 
+                                   proxyName );
+            CleanupStack::PopAndDestroy(&proxyName); // proxyName
+            CleanupStack::PopAndDestroy(k); //k
+            
+            RDebug::Print(_L("ConnTest: Proxy address: %S"), &proxyAddr);
         }
         CleanupStack::PopAndDestroy(view); // view
         CleanupStack::PopAndDestroy(TheDb); // TheDb
