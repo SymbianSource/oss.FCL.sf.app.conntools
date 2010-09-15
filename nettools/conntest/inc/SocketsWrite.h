@@ -160,7 +160,7 @@ private: // Member data
     TUint                   iProtocol;
 	TInt                    iPackets;
 	TInt                    iPacketSize;
-    TInt                    iSentBytes;
+	TUint64                 iSentBytes;
 	TTime                   iStartTime;
 	TInt                    iDataChunkCount;
 	HBufC8*                 iReqBodySubmitBuffer;

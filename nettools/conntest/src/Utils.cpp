@@ -57,13 +57,13 @@ Utils::~Utils()
 // Calculate throughput
 // ----------------------------------------------------------------------------
 //
-void Utils::CalculateThroughput( TDes8& aBuffer, TTime aStartTime, TInt aSize )
+void Utils::CalculateThroughput( TDes8& aBuffer, TTime aStartTime, TUint64 aSize )
     {
     TTime now;
     now.UniversalTime();
     TTimeIntervalMicroSeconds interval;
     interval = now.MicroSecondsFrom( aStartTime );
-    TInt num = I64INT(interval.Int64());
+    TUint64 num = interval.Int64();
     
     if (num != 0)
         {

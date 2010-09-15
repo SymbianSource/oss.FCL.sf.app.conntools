@@ -42,7 +42,7 @@ public:
     /**
     * Calculate throughput
     */
-	static void CalculateThroughput(TDes8& aBuffer, TTime aStartTime, TInt aSize);
+    static void CalculateThroughput(TDes8& aBuffer, TTime aStartTime, TUint64 aSize);
 
     /**
     * Set IapId value into connection preferences table.

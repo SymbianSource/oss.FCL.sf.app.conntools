@@ -126,7 +126,7 @@ private: // Member variables
     MUINotify&              iConsole; // console for displaying text etc
     TBuf8<KReadDataSize>  iBuffer;  // buffer for receiving data
     TSockXfrLength          iDummyLength; // dummy - length of data read is written here
-    TInt                    iReceivedBytes; 
+    TUint64                 iReceivedBytes;
     TInt32					iUdpPacketCounter;
     TBool                   iDoCount; 
     TBool                   iDoPerformance; 
