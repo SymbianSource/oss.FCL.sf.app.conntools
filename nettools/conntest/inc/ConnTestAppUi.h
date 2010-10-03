@@ -34,7 +34,6 @@ class CConnTestContainer;
 class CConnTestView;
 class CAknWarningNote;
 class CIpdumpEngine;
-class CSendUi;
 class CSettingData;
 class CCustomPrefsData;
 
@@ -139,7 +138,6 @@ private: //Data
     TFixedArray<CCustomPrefsData*, KConnTestViews>&  iCustomPrefsDataArray;
     CAknWarningNote* iWarningDialog; // notice, currently used: ->ExecuteLD, so deleted automatically
     CIpdumpEngine* iIpdumpEngine; // Only 1 dump engine/app, thus appui owns it
-    CSendUi* iSendUi; // For sending the log
 };
 
 #endif

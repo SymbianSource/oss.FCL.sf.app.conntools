@@ -96,7 +96,6 @@ LIBRARY           inetprotutil.lib
 LIBRARY           insock.lib
 LIBRARY           esock.lib
 LIBRARY           ws32.lib
-LIBRARY           sendui.lib 
 LIBRARY           cmmanager.lib
 LIBRARY           netmeta.lib
 LIBRARY           extendedconnpref.lib

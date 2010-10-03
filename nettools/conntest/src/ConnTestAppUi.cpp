@@ -22,7 +22,6 @@
 #include <aknnotewrappers.h> 
 #include <CMessageData.h>
 #include <TSendingCapabilities.h> 
-#include <sendui.h>
 
 #include "ConnTestAppUi.h"
 #include "ConnTestView.h"
@@ -114,7 +113,6 @@ CConnTestAppUi::~CConnTestAppUi()
         }
     delete iDecoratedTabGroup;
     iConnTestViews.Reset();
-    delete iSendUi;
     // currently used with ->ExecuteLD, so deleted automatically elsewhere
     // delete iWarningDialog;
     }
@@ -281,34 +279,7 @@ void CConnTestAppUi::ParallelGetL(TInt aCount)
 //
 void CConnTestAppUi::SendLogFileL()
     {
-    if(!iIpdumpEngine)
-        {
-        iIpdumpEngine = CIpdumpEngine::NewL();                   
-        }
-    if(!iSendUi)
-        {
-        iSendUi = CSendUi::NewL();   
-        }
-    CMessageData* messageData = CMessageData::NewL();
-    CleanupStack::PushL(messageData);
-
-    // 
-    // Since CSendUi doesn't support sending .log or .cap files, 
-    // the file is renamed here.
-    //
-    _LIT(KNewName, "c:\\logs\\tcpdump\\probe.cap.txt"); 
-    RFs fs;
-    if (fs.Connect() == KErrNone)
-        {
-        fs.Replace(iIpdumpEngine->LogFileName(), KNewName);
-        }
-    fs.Close();
-
-    messageData->AppendAttachmentL(KNewName); 
-
-    TSendingCapabilities cap(0, 1024, TSendingCapabilities::ESupportsAttachments);
-    iSendUi->ShowQueryAndSendL(messageData, cap);
-    CleanupStack::PopAndDestroy(messageData); // messageData
+    // Empty implementation, CSendUi dependency removed
     }
 
 // ----------------------------------------------------
