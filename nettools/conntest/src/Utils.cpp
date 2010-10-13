@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies). 
+ * Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies). 
  * All rights reserved.
  * This component and the accompanying materials are made available
  * under the terms of "Eclipse Public License v1.0"
@@ -19,7 +19,7 @@
 // INCLUDE FILES
 #include <commdb.h>
 #include <aknlistquerydialog.h>
-#include <conntest.rsg>
+#include <ConnTest.rsg>
 
 #include <aknselectionlist.h>
 #include <aknPopup.h>
@@ -57,13 +57,13 @@ Utils::~Utils()
 // Calculate throughput
 // ----------------------------------------------------------------------------
 //
-void Utils::CalculateThroughput( TDes8& aBuffer, TTime aStartTime, TUint64 aSize )
+void Utils::CalculateThroughput( TDes8& aBuffer, TTime aStartTime, TInt aSize )
     {
     TTime now;
     now.UniversalTime();
     TTimeIntervalMicroSeconds interval;
     interval = now.MicroSecondsFrom( aStartTime );
-    TUint64 num = interval.Int64();
+    TInt num = I64INT(interval.Int64());
     
     if (num != 0)
         {

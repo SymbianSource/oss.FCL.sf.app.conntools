@@ -159,7 +159,7 @@ private:
     MHTTPDataSupplier*   iRespBody;
     MUINotify&           iConsole; // console for displaying text etc
     TTime                iStartTime;
-    TUint64              iBodySize;
+    TInt                 iBodySize;
     TBool                iDoPerformance;
 };
 

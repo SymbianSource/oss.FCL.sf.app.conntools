@@ -76,7 +76,7 @@ APP_LAYER_SYSTEMINCLUDE
 LIBRARY           apparc.lib
 LIBRARY           apgrfx.lib
 LIBRARY           avkon.lib
-LIBRARY           aknskins.lib
+LIBRARY           AknSkins.lib
 LIBRARY           aknnotify.lib
 LIBRARY           bafl.lib 
 LIBRARY           commdb.lib

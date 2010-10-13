@@ -382,10 +382,7 @@ TInt CHttpClient::Reset()
 void CHttpClient::DisplayTimeElapsed()
 {
     // Throughput calculation
-    TUint64 packets = iSettingData->iPackets;
-    TUint64 packetSize = iSettingData->iPacketSize;
-    TUint64 size = packets*packetSize; 
-    
+    TInt size = OverallDataSize();
     TBuf8<128> b(_L8("Body sent\n"));
     Utils::CalculateThroughput(b, iLastTimeStamp, size);
     

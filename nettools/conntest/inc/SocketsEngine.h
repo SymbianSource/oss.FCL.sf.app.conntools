@@ -402,7 +402,7 @@ private:
 	TUint32						iStartTime; // for performance testing only
 	TTime                       iStartTTime; // for performance testing only
 	TTime						iThroughputStartTime; // for performance testing only
-	TUint64                     iTroughputDataSize;
+	TInt                        iTroughputDataSize;
     TCommDbConnPref             iPrefs;
     TConnPrefList*              iPrefsList;
     TExtendedConnPref*          iExtPrefs;
