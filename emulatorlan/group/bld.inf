@@ -21,7 +21,7 @@ DEFAULT
 PRJ_EXPORTS
 ../data/configchange.pl             /epoc32/tools/configchange.pl
 ../data/EnableLanConnection.cmd     /epoc32/tools/EnableLanConnection.cmd
-../data/ethernetced.xml             /epoc32/winscw/c/ethernetced.xml
+../data/ethernetced.xml             /epoc32/winscw/c/ethernetced_conntools.xml
 ../data/s60_32_default_snaps.xml    /epoc32/winscw/c/s60_32_default_snaps.xml
 
 PRJ_MMPFILES
